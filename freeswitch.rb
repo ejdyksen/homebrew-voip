@@ -5,7 +5,8 @@ require 'formula'
 
 class Freeswitch < Formula
   homepage 'http://www.freeswitch.org'
-  url 'git://git.freeswitch.org/freeswitch', :using => :git, :tag => 'v1.5.0'
+  url 'git://git.freeswitch.org/freeswitch', :tag => 'v1.5.0'
+  head 'git://git.freeswitch.org/freeswitch'
   version '1.5.0'
 
   depends_on 'autoconf'
@@ -19,7 +20,11 @@ class Freeswitch < Formula
     system "./configure", "--disable-debug", "--disable-dependency-tracking",
                           "--prefix=#{prefix}"
     system "make"
-    system "make", "install"
+    system "make", "install cd-sounds-install cd-moh-install"
+  end
+
+  def patches
+    "https://gist.github.com/ejdyksen/687cf485b4baa3468c22/raw/fix_g722_macos.patch"
   end
 
   test do
@@ -31,3 +36,4 @@ class Freeswitch < Formula
     system "false"
   end
 end
+
